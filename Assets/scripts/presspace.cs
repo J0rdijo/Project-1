@@ -11,7 +11,7 @@ public class presspace : MonoBehaviour {
     {
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
                 SceneManager.LoadScene("Level O");
         }
     }
