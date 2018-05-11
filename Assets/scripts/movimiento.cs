@@ -13,6 +13,7 @@ public class movimiento : MonoBehaviour
     private float distPared;
     private bool extraJump;
     private double doubleJumpRef;
+    private double portalRef;
     private bool rWallJump;
     private bool lWallJump;
     //Layers
@@ -77,10 +78,11 @@ public class movimiento : MonoBehaviour
         {
             portalPos = GameObject.Find("morado (1)").transform.position;
             portalAngle = GameObject.Find("morado (1)").transform.eulerAngles;
-            switch((int)portalAngle.z)
+            portalRef = Time.realtimeSinceStartup;
+            switch ((int)portalAngle.z)
             {
                 case 90:
-                    portalPos.y += 0.75f;
+                    portalPos.y += 0.8f;
                     controller.position = portalPos;
                     switch (portal())
                     {
@@ -101,7 +103,7 @@ public class movimiento : MonoBehaviour
                     }
                     break;
                 case 270:
-                    portalPos.y -= 0.75f;
+                    portalPos.y -= 0.8f;
                     controller.position = portalPos;
                     switch (portal())
                     {
@@ -205,7 +207,7 @@ public class movimiento : MonoBehaviour
         {
             direction = Input.GetAxis("Horizontal");
             controller.AddForce(new Vector2(direction * 0.01f, 0));
-            if (direction == 0 && Grounded() == false)
+            if ((direction == 0 && Grounded() == false) || Time.realtimeSinceStartup <= portalRef + 1)
             {
                 if (controller.velocity.x > 1)
                     controller.AddForce(new Vector2(controller.velocity.x - 5, controller.velocity.y));
