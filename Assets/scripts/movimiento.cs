@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class movimiento : MonoBehaviour
 {
-
     //Use this for initialization
     private float direction; //X component
     private Rigidbody2D controller;
@@ -23,12 +22,17 @@ public class movimiento : MonoBehaviour
     private int reboteLayer;
     private int deathLayer;
     private int nextLevelLayer;
+    private int portalLayer;
     //Respawn
     private float xRes;
     private float yRes;
     private Vector2 position;
     private Vector2 positionL;
     private Vector2 positionR;
+
+    //Game Objects
+    private Vector2 portalPos;
+    private Vector3 portalAngle;
 
     void Start()
     {
@@ -43,6 +47,7 @@ public class movimiento : MonoBehaviour
         extraJump = false;
         reboteLayer = LayerMask.GetMask("rebotador");
         nextLevelLayer = LayerMask.GetMask("Next Level");
+        portalLayer = LayerMask.GetMask("portal");
         rWallJump = true;
         lWallJump = false;
         //Respawn coordinates
@@ -67,6 +72,100 @@ public class movimiento : MonoBehaviour
         if (isDead())
         {
             controller.position = position;
+        }
+        if (portal() != 0)
+        {
+            portalPos = GameObject.Find("morado (1)").transform.position;
+            portalAngle = GameObject.Find("morado (1)").transform.eulerAngles;
+            switch((int)portalAngle.z)
+            {
+                case 90:
+                    portalPos.y += 0.75f;
+                    controller.position = portalPos;
+                    switch (portal())
+                    {
+                        case 1:
+                            controller.velocity = new Vector2(controller.velocity.x, controller.velocity.y * -1);
+                            break;
+                        case 2:
+                            controller.velocity = new Vector2(controller.velocity.x, controller.velocity.y);
+                            break;
+                        case 3:
+                            controller.velocity = new Vector2(0, controller.velocity.x*1.5f);
+                            break;
+                        case 4:
+                            controller.velocity = new Vector2(0, (controller.velocity.x * 1.5f) * -1);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 270:
+                    portalPos.y -= 0.75f;
+                    controller.position = portalPos;
+                    switch (portal())
+                    {
+                        case 1:
+                            controller.velocity = new Vector2(controller.velocity.x, controller.velocity.y);
+                            break;
+                        case 2:
+                            controller.velocity = new Vector2(controller.velocity.x, controller.velocity.y * -1);
+                            break;
+                        case 3:
+                            controller.velocity = new Vector2(0, (controller.velocity.x * 1.5f) * -1);
+                            break;
+                        case 4:
+                            controller.velocity = new Vector2(0, controller.velocity.x * 1.5f);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 0:
+                    portalPos.x += 0.75f;
+                    controller.position = portalPos;
+                    switch (portal())
+                    {
+                        case 1:
+                            controller.velocity = new Vector2(controller.velocity.y * -1, 0);
+                            break;
+                        case 2:
+                            controller.velocity = new Vector2(controller.velocity.y, 0);
+                            break;
+                        case 3:
+                            controller.velocity = new Vector2(controller.velocity.x, 0);
+                            break;
+                        case 4:
+                            controller.velocity = new Vector2(controller.velocity.x * -1, 0);
+                            break;
+                        default:
+                            break;
+                    }                  
+                    break;
+                case 180:
+                    portalPos.x -= 0.75f;
+                    controller.position = portalPos;
+                    switch (portal())
+                    {
+                        case 1:
+                            controller.velocity = new Vector2(controller.velocity.y, 0);
+                            break;
+                        case 2:
+                            controller.velocity = new Vector2(controller.velocity.y * -1, 0);
+                            break;
+                        case 3:
+                            controller.velocity = new Vector2(controller.velocity.x * -1, 0);
+                            break;
+                        case 4:
+                            controller.velocity = new Vector2(controller.velocity.x, 0);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         if (Grounded() || platWallJump() || doubleJump() || rebote())
         {
@@ -130,7 +229,7 @@ public class movimiento : MonoBehaviour
             else if (controller.velocity.x < -1)
                 controller.AddForce(new Vector2(controller.velocity.x + 40, controller.velocity.y));
         }
-        Debug.Log(Grounded());
+        Debug.Log(portalAngle.z);
     }
 
     bool Grounded()
@@ -189,6 +288,21 @@ public class movimiento : MonoBehaviour
             }
         }
     }
+
+    int portal()
+    {
+        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, portalLayer) || (Physics2D.Raycast(positionR, Vector2.down, distSuelo, portalLayer)))
+            return 1;
+        else if (Physics2D.Raycast(positionL, Vector2.up, distSuelo, portalLayer) || (Physics2D.Raycast(positionR, Vector2.up, distSuelo, portalLayer)))
+            return 2;
+        else if (Physics2D.Raycast(transform.position, Vector2.right, distPared, portalLayer))
+            return 3;
+        else if (Physics2D.Raycast(transform.position, Vector2.left, distPared, portalLayer))
+            return 4;
+        return 0;
+    }
+
+
     void mainMenu()
     {
         if (Input.GetKey(KeyCode.Escape))
