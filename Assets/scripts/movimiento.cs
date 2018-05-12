@@ -124,7 +124,7 @@ public class movimiento : MonoBehaviour
                     }
                     break;
                 case 0:
-                    portalPos.x += 0.8f;
+                    portalPos.x += 0.75f;
                     controller.position = portalPos;
                     switch (portal())
                     {
@@ -145,7 +145,7 @@ public class movimiento : MonoBehaviour
                     }                  
                     break;
                 case 180:
-                    portalPos.x -= 0.8f;
+                    portalPos.x -= 0.75f;
                     controller.position = portalPos;
                     switch (portal())
                     {
@@ -243,12 +243,7 @@ public class movimiento : MonoBehaviour
 
     bool isDead()
     {
-        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, deathLayer) || 
-            Physics2D.Raycast(positionR, Vector2.down, distSuelo, deathLayer)
-            || positionR.y < -10 ||  Physics2D.Raycast(positionL, Vector2.up, distSuelo, deathLayer) || 
-            (Physics2D.Raycast(positionR, Vector2.up, distSuelo, deathLayer)) ||
-            Physics2D.Raycast(transform.position, Vector2.right, distPared, deathLayer) ||
-            Physics2D.Raycast(transform.position, Vector2.left, distPared, deathLayer))
+        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, deathLayer) || Physics2D.Raycast(positionR, Vector2.down, distSuelo, deathLayer) || positionR.y < -10)
             return true;
         return false;
     }
