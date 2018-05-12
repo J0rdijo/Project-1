@@ -18,32 +18,15 @@ public class Menuctrl : MonoBehaviour {
         Application.Quit();
     }
 
-    public void soundOnOff()
-    {
-        bool sound = true;
-        if (!sound)
-        {
-            AudioListener.pause = true;
-            sound = true;
-        }
-        else
-        {
-            AudioListener.pause = false;
-            sound = false;
-        }
-    }
-
     public void fullScreenOff()
     {
         if (Screen.fullScreen == true)
         {
             Screen.fullScreen = false;
-            widescreen_txt.text = "                                          WIDESCREEN";
         }
         else
         {
             Screen.fullScreen = true;
-            widescreen_txt.text = "                                          FULLSCREEN";
         }
     }
 
