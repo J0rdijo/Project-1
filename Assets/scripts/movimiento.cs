@@ -37,7 +37,7 @@ public class movimiento : MonoBehaviour
 
     void Start()
     {
-        verticalHeight = 5.75f;
+        verticalHeight = 8.625f;
         controller = GetComponent<Rigidbody2D>();
         distSuelo = 0.6f;
         distPared = 0.45f;
@@ -177,13 +177,13 @@ public class movimiento : MonoBehaviour
             }
             if (Grounded())
             {
-                verticalHeight = 5.75f;
+                verticalHeight = 8.625f;
                 rWallJump = true;
                 lWallJump = true;
             }
             if (rebote())
             {
-                verticalHeight = 10;
+                verticalHeight = 15;
                 controller.velocity = new Vector2(controller.velocity.x / 5, verticalHeight);
             }
             if (Input.GetKey(KeyCode.Space))
@@ -206,13 +206,13 @@ public class movimiento : MonoBehaviour
         else if (Grounded() == false)
         {
             direction = Input.GetAxis("Horizontal");
-            controller.AddForce(new Vector2(direction * 0.01f, 0));
-            if ((direction == 0 && Grounded() == false) || Time.realtimeSinceStartup <= portalRef + 1)
+            controller.AddForce(new Vector2(direction, 0));
+            if ((direction == 0 && Grounded() == false) || Time.realtimeSinceStartup <= portalRef + 0.5f)
             {
                 if (controller.velocity.x > 1)
-                    controller.AddForce(new Vector2(controller.velocity.x - 5, controller.velocity.y));
+                    controller.AddForce(new Vector2(controller.velocity.x + 10, controller.velocity.y));
                 else if (controller.velocity.x < -1)
-                    controller.AddForce(new Vector2(controller.velocity.x + 5, controller.velocity.y));
+                    controller.AddForce(new Vector2(controller.velocity.x - 10, controller.velocity.y));
             }
             if (extraJump && Input.GetKey(KeyCode.Space) && Time.realtimeSinceStartup >= doubleJumpRef + 0.35f)
             {
@@ -222,7 +222,7 @@ public class movimiento : MonoBehaviour
         }
         if ((controller.velocity.x < 5 && direction == 1) || (controller.velocity.x > -5 && direction == -1))     //aceleración
         {
-            controller.AddForce(new Vector2(controller.velocity.x + direction * 10, 0));
+            controller.AddForce(new Vector2(controller.velocity.x + direction * 15, 0));
         }
         if ((direction == 0 && (Grounded() || doubleJump())) || (controller.velocity.x > 5 || controller.velocity.x < -5))
         {
@@ -231,7 +231,6 @@ public class movimiento : MonoBehaviour
             else if (controller.velocity.x < -1)
                 controller.AddForce(new Vector2(controller.velocity.x + 40, controller.velocity.y));
         }
-        Debug.Log(portalAngle.z);
     }
 
     bool Grounded()
