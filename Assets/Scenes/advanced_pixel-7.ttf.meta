@@ -1,9 +1,8 @@
 fileFormatVersion: 2
-guid: 5c0e97eb442665645b81f99c098a97e6
+guid: 1aecbc3772fa9c9488fa30d69f55ee16
 timeCreated: 1526041391
 licenseType: Free
 TrueTypeFontImporter:
-  externalObjects: {}
   serializedVersion: 4
   fontSize: 16
   forceTextureCase: -2
@@ -13,7 +12,8 @@ TrueTypeFontImporter:
   fontName: Advanced Pixel-7
   fontNames:
   - Advanced Pixel-7
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5c0e97eb442665645b81f99c098a97e6, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

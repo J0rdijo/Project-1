@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c5e961a395174d54c9a8ca90e5d73dc4
+guid: 97909f05cff876442904d1caf5ca785b
 timeCreated: 1526051906
 licenseType: Free
 TrueTypeFontImporter:
@@ -12,7 +12,8 @@ TrueTypeFontImporter:
   fontName: COMPUTER Robot
   fontNames:
   - COMPUTER Robot
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c5e961a395174d54c9a8ca90e5d73dc4, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

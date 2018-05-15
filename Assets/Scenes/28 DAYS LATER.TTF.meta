@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1f0296a67e7238548b2458f8da7d3f5b
+guid: 10e7f0d886edfd94282106b252f7de92
 timeCreated: 1526053229
 licenseType: Free
 TrueTypeFontImporter:
@@ -12,7 +12,8 @@ TrueTypeFontImporter:
   fontName: 28 Days Later
   fontNames:
   - 28 Days Later
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 1f0296a67e7238548b2458f8da7d3f5b, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

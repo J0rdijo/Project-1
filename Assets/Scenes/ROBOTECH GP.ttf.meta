@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ac9b1c1fd5627a348972fea7064a71b9
+guid: fd55b38579bb0434894110998fdaeaf6
 timeCreated: 1526051805
 licenseType: Free
 TrueTypeFontImporter:
@@ -12,7 +12,8 @@ TrueTypeFontImporter:
   fontName: ROBOTECH GP
   fontNames:
   - ROBOTECH GP
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ac9b1c1fd5627a348972fea7064a71b9, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
