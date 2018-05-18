@@ -7,6 +7,7 @@ public class movimiento : MonoBehaviour
 {
     //Use this for initialization
     private float direction; //X component
+    private bool jump;
     private Rigidbody2D controller;
     private float distSuelo;
     private float verticalHeight;
@@ -37,7 +38,7 @@ public class movimiento : MonoBehaviour
 
     void Start()
     {
-        verticalHeight = 8.625f;
+        verticalHeight = 7.625f;
         controller = GetComponent<Rigidbody2D>();
         distSuelo = 0.6f;
         distPared = 0.45f;
@@ -57,6 +58,7 @@ public class movimiento : MonoBehaviour
         position.x = xRes;
         position.y = yRes;
         controller.position = position;
+        jump = false;
     }
 
 
@@ -67,6 +69,16 @@ public class movimiento : MonoBehaviour
         positionL.y = controller.position.y;
         positionR.x = controller.position.x + 0.3f;
         positionR.y = controller.position.y;
+        if(Input.GetAxis("Horizontal") == 0)
+            direction = Input.GetAxis("Horizontal J");
+        else
+            direction = Input.GetAxis("Horizontal");
+        if (Input.GetAxis("Vertical") == 1)
+            jump = true;
+        else if (Input.GetAxis("Vertical J") == 1)
+            jump = true;
+        else
+            jump = false;
 
         mainMenu();
         nextLevel();
@@ -177,22 +189,21 @@ public class movimiento : MonoBehaviour
             }
             if (Grounded())
             {
-                verticalHeight = 8.625f;
+                verticalHeight = 7.625f;
                 rWallJump = true;
                 lWallJump = true;
             }
             if (rebote())
             {
-                verticalHeight = 15;
+                verticalHeight = 14;
                 controller.velocity = new Vector2(controller.velocity.x / 5, verticalHeight);
             }
-            if (Input.GetKey(KeyCode.Space))
+            if (jump)
             {
                 controller.velocity = new Vector2(controller.velocity.x, verticalHeight);
             }
             else
             {
-                direction = Input.GetAxis("Horizontal");
                 controller.AddForce(new Vector2(direction * 0.1f, 0));
             }
             if (doubleJump())
@@ -205,7 +216,6 @@ public class movimiento : MonoBehaviour
         }
         else if (Grounded() == false)
         {
-            direction = Input.GetAxis("Horizontal");
             controller.AddForce(new Vector2(direction, 0));
             if ((direction == 0 && Grounded() == false) || Time.realtimeSinceStartup <= portalRef + 0.5f)
             {
@@ -214,7 +224,7 @@ public class movimiento : MonoBehaviour
                 else if (controller.velocity.x < -1)
                     controller.AddForce(new Vector2(controller.velocity.x - 10, controller.velocity.y));
             }
-            if (extraJump && Input.GetKey(KeyCode.Space) && Time.realtimeSinceStartup >= doubleJumpRef + 0.35f)
+            if (extraJump && jump && Time.realtimeSinceStartup >= doubleJumpRef + 0.35f)
             {
                 controller.velocity = new Vector2(controller.velocity.x, verticalHeight);
                 extraJump = false;
@@ -249,14 +259,14 @@ public class movimiento : MonoBehaviour
 
     bool platWallJump()
     {
-        if (Physics2D.Raycast(transform.position, Vector2.right, distPared, boteParedLayer) && rWallJump && Input.GetKey(KeyCode.Space))
+        if (Physics2D.Raycast(transform.position, Vector2.right, distPared, boteParedLayer) && rWallJump && jump)
         {
             controller.velocity = new Vector2(0, 5.75f);
             rWallJump = false;
             lWallJump = true;
             return true;
         }
-        else if (Physics2D.Raycast(transform.position, Vector2.left, distPared, boteParedLayer) && lWallJump && Input.GetKey(KeyCode.Space))
+        else if (Physics2D.Raycast(transform.position, Vector2.left, distPared, boteParedLayer) && lWallJump && jump)
         {
             controller.velocity = new Vector2(0, 5.75f);
             lWallJump = false;
@@ -307,6 +317,8 @@ public class movimiento : MonoBehaviour
     void mainMenu()
     {
         if (Input.GetKey(KeyCode.Escape))
+            SceneManager.LoadScene("Menu_1");
+        else if (Input.GetKey(KeyCode.Joystick1Button7))
             SceneManager.LoadScene("Menu_1");
     }
 }
