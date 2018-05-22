@@ -29,6 +29,7 @@ public class movimiento : MonoBehaviour
     private float xRes;
     private float yRes;
     private Vector2 position;
+    private Vector2 resVel;
     private Vector2 positionL;
     private Vector2 positionR;
 
@@ -52,7 +53,9 @@ public class movimiento : MonoBehaviour
         portalLayer = LayerMask.GetMask("portal");
         rWallJump = true;
         lWallJump = false;
-        //Respawn coordinates
+        //Respawn coordinates and velocity
+        resVel.x = 0;
+        resVel.y = 0;
         xRes = -9.78f;
         yRes = -3.17f;
         position.x = xRes;
@@ -69,7 +72,7 @@ public class movimiento : MonoBehaviour
         positionL.y = controller.position.y;
         positionR.x = controller.position.x + 0.3f;
         positionR.y = controller.position.y;
-        if(Input.GetAxis("Horizontal") == 0)
+        if (Input.GetAxis("Horizontal") == 0)
             direction = Input.GetAxis("Horizontal J");
         else
             direction = Input.GetAxis("Horizontal");
@@ -79,12 +82,15 @@ public class movimiento : MonoBehaviour
             jump = true;
         else
             jump = false;
+        if (direction < 0.2f || direction > 0.8f)
+            direction = (int)direction;
 
         mainMenu();
         nextLevel();
         if (isDead())
         {
             controller.position = position;
+            controller.velocity = resVel;
         }
         if (portal() != 0)
         {
@@ -183,10 +189,6 @@ public class movimiento : MonoBehaviour
         }
         if (Grounded() || platWallJump() || doubleJump() || rebote())
         {
-            if(platWallJump())
-            {
-
-            }
             if (Grounded())
             {
                 verticalHeight = 7.625f;
@@ -217,12 +219,14 @@ public class movimiento : MonoBehaviour
         else if (Grounded() == false)
         {
             controller.AddForce(new Vector2(direction, 0));
-            if ((direction == 0 && Grounded() == false) || Time.realtimeSinceStartup <= portalRef + 0.5f)
+            if ((direction == 0 && Grounded() == false) || Time.realtimeSinceStartup <= portalRef + 0.65f)
             {
                 if (controller.velocity.x > 1)
-                    controller.AddForce(new Vector2(controller.velocity.x + 10, controller.velocity.y));
+                    controller.AddForce(new Vector2(controller.velocity.x, controller.velocity.y));
                 else if (controller.velocity.x < -1)
-                    controller.AddForce(new Vector2(controller.velocity.x - 10, controller.velocity.y));
+                    controller.AddForce(new Vector2(controller.velocity.x, controller.velocity.y));
+                //if (direction == 0)
+                //    controller.AddForce(new Vector2(controller.velocity.x + , 0));
             }
             if (extraJump && jump && Time.realtimeSinceStartup >= doubleJumpRef + 0.35f)
             {
