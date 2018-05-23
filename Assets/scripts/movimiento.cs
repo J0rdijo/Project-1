@@ -25,6 +25,7 @@ public class movimiento : MonoBehaviour
     private int deathLayer;
     private int nextLevelLayer;
     private int portalLayer;
+    private int switchLayer;
     //Respawn
     private float xRes;
     private float yRes;
@@ -51,6 +52,7 @@ public class movimiento : MonoBehaviour
         reboteLayer = LayerMask.GetMask("rebotador");
         nextLevelLayer = LayerMask.GetMask("Next Level");
         portalLayer = LayerMask.GetMask("portal");
+        switchLayer = LayerMask.GetMask("switch");
         rWallJump = true;
         lWallJump = false;
         //Respawn coordinates and velocity
@@ -89,11 +91,13 @@ public class movimiento : MonoBehaviour
         nextLevel();
         if (isDead())
         {
+            SoundManagerScript.PlaySound ("Death");
             controller.position = position;
             controller.velocity = resVel;
         }
         if (portal() != 0)
         {
+            SoundManagerScript.PlaySound("Teleport");
             portalPos = GameObject.Find("morado (1)").transform.position;
             portalAngle = GameObject.Find("morado (1)").transform.eulerAngles;
             portalRef = Time.realtimeSinceStartup;
@@ -187,6 +191,7 @@ public class movimiento : MonoBehaviour
                     break;
             }
         }
+        switchPlat();
         if (Grounded() || platWallJump() || doubleJump() || rebote())
         {
             if (Grounded())
@@ -202,6 +207,7 @@ public class movimiento : MonoBehaviour
             }
             if (jump)
             {
+                SoundManagerScript.PlaySound("Jump");
                 controller.velocity = new Vector2(controller.velocity.x, verticalHeight);
             }
             else
@@ -212,6 +218,7 @@ public class movimiento : MonoBehaviour
             {
                 extraJump = true;
                 doubleJumpRef = Time.realtimeSinceStartup;
+                
             }
             else
                 extraJump = false;
@@ -225,11 +232,10 @@ public class movimiento : MonoBehaviour
                     controller.AddForce(new Vector2(controller.velocity.x, controller.velocity.y));
                 else if (controller.velocity.x < -1)
                     controller.AddForce(new Vector2(controller.velocity.x, controller.velocity.y));
-                //if (direction == 0)
-                //    controller.AddForce(new Vector2(controller.velocity.x + , 0));
             }
             if (extraJump && jump && Time.realtimeSinceStartup >= doubleJumpRef + 0.35f)
             {
+                SoundManagerScript.PlaySound("JumpH");
                 controller.velocity = new Vector2(controller.velocity.x, verticalHeight);
                 extraJump = false;
             }
@@ -317,6 +323,19 @@ public class movimiento : MonoBehaviour
         return 0;
     }
 
+    void switchPlat()
+    {
+        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, switchLayer) ||
+            Physics2D.Raycast(positionR, Vector2.down, distSuelo, switchLayer) ||
+            Physics2D.Raycast(positionL, Vector2.up, distSuelo, switchLayer) ||
+            (Physics2D.Raycast(positionR, Vector2.up, distSuelo, switchLayer)) ||
+            Physics2D.Raycast(transform.position, Vector2.right, distPared, switchLayer) ||
+            Physics2D.Raycast(transform.position, Vector2.left, distPared, switchLayer))
+        {
+            GameObject.Find("Meta").layer = 13;
+            GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta");
+        }
+    }
 
     void mainMenu()
     {
