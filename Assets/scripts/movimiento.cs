@@ -262,8 +262,17 @@ public class movimiento : MonoBehaviour
 
     bool isDead()
     {
-        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, deathLayer) || Physics2D.Raycast(positionR, Vector2.down, distSuelo, deathLayer) || positionR.y < -10)
+        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, deathLayer) ||
+            Physics2D.Raycast(positionR, Vector2.down, distSuelo, deathLayer) ||
+            Physics2D.Raycast(positionL, Vector2.up, distSuelo, deathLayer) ||
+            (Physics2D.Raycast(positionR, Vector2.up, distSuelo, deathLayer)) ||
+            Physics2D.Raycast(transform.position, Vector2.right, distPared, deathLayer) ||
+            Physics2D.Raycast(transform.position, Vector2.left, distPared, deathLayer) || transform.position.y < -10)
+        {
+            GameObject.Find("Meta").layer = 8;
+            GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta Desactivada");
             return true;
+        }
         return false;
     }
 
