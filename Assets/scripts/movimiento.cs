@@ -33,6 +33,8 @@ public class movimiento : MonoBehaviour
     private Vector2 resVel;
     private Vector2 positionL;
     private Vector2 positionR;
+    private bool resSound;
+    private double resSoundDelay;
 
     //Game Objects
     private Vector2 portalPos;
@@ -64,6 +66,7 @@ public class movimiento : MonoBehaviour
         position.y = yRes;
         controller.position = position;
         jump = false;
+        resSound = true;
     }
 
 
@@ -86,10 +89,16 @@ public class movimiento : MonoBehaviour
             jump = false;
         if (direction < 0.2f || direction > 0.8f)
             direction = (int)direction;
-
+            
         mainMenu();
         nextLevel();
         switchPlat();
+        if (resSound)
+        {
+            SoundManagerScript.PlaySound("Exit");
+            resSound = false;
+        }
+
         if (portal() != 0)
         {
             SoundManagerScript.PlaySound("Teleport");
@@ -196,6 +205,7 @@ public class movimiento : MonoBehaviour
             }
             if (rebote())
             {
+                SoundManagerScript.PlaySound("Bounce");
                 verticalHeight = 14;
                 controller.velocity = new Vector2(controller.velocity.x / 5, verticalHeight);
             }
@@ -283,6 +293,7 @@ public class movimiento : MonoBehaviour
     {
         if (Physics2D.Raycast(transform.position, Vector2.right, distPared, boteParedLayer) && rWallJump && jump)
         {
+            SoundManagerScript.PlaySound("Wall");
             controller.velocity = new Vector2(0, 5.75f);
             rWallJump = false;
             lWallJump = true;
@@ -290,6 +301,7 @@ public class movimiento : MonoBehaviour
         }
         else if (Physics2D.Raycast(transform.position, Vector2.left, distPared, boteParedLayer) && lWallJump && jump)
         {
+            SoundManagerScript.PlaySound("Wall");
             controller.velocity = new Vector2(0, 5.75f);
             lWallJump = false;
             rWallJump = true;
@@ -318,6 +330,7 @@ public class movimiento : MonoBehaviour
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             {
                 SceneManager.LoadScene(currentSceneIndex + 1);
+                resSoundDelay = Time.realtimeSinceStartup;
             }
         }
     }
@@ -348,6 +361,7 @@ public class movimiento : MonoBehaviour
             GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta");
         }
     }
+
 
     void mainMenu()
     {

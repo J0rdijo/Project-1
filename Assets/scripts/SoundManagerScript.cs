@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManagerScript : MonoBehaviour {
 
-    public static AudioClip jumpSound, jumpHSound, teleportSound, deathSound;
+    public static AudioClip jumpSound, jumpHSound, teleportSound, deathSound, bounceSound, wallSound, exitSound;
     static AudioSource audioSrc;
 
 	void Start () {
@@ -13,7 +13,9 @@ public class SoundManagerScript : MonoBehaviour {
         jumpHSound = Resources.Load<AudioClip>("JumpH");
         teleportSound = Resources.Load<AudioClip>("Teleport");
         deathSound = Resources.Load<AudioClip>("Death");
-        
+        bounceSound = Resources.Load<AudioClip>("Bounce");
+        wallSound = Resources.Load<AudioClip>("Wall");
+        exitSound = Resources.Load<AudioClip>("Exit");
 
         audioSrc = GetComponent<AudioSource>();
     }
@@ -40,8 +42,15 @@ public class SoundManagerScript : MonoBehaviour {
             case "Death":
                 audioSrc.PlayOneShot(deathSound);
                 break;
-
-
+            case "Bounce":
+                audioSrc.PlayOneShot(bounceSound);
+                break;
+            case "Wall":
+                audioSrc.PlayOneShot(wallSound);
+                break;
+            case "Exit":
+                audioSrc.PlayOneShot(exitSound);
+                break;
         }
     }
 }
