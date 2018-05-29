@@ -89,12 +89,7 @@ public class movimiento : MonoBehaviour
 
         mainMenu();
         nextLevel();
-        if (isDead())
-        {
-            SoundManagerScript.PlaySound ("Death");
-            controller.position = position;
-            controller.velocity = resVel;
-        }
+        switchPlat();
         if (portal() != 0)
         {
             SoundManagerScript.PlaySound("Teleport");
@@ -191,7 +186,6 @@ public class movimiento : MonoBehaviour
                     break;
             }
         }
-        switchPlat();
         if (Grounded() || platWallJump() || doubleJump() || rebote())
         {
             if (Grounded())
@@ -251,6 +245,12 @@ public class movimiento : MonoBehaviour
             else if (controller.velocity.x < -1)
                 controller.AddForce(new Vector2(controller.velocity.x + 40, controller.velocity.y));
         }
+        if (isDead())
+        {
+            SoundManagerScript.PlaySound("Death");
+            controller.position = position;
+            controller.velocity = resVel;
+        }
     }
 
     bool Grounded()
@@ -269,8 +269,11 @@ public class movimiento : MonoBehaviour
             Physics2D.Raycast(transform.position, Vector2.right, distPared, deathLayer) ||
             Physics2D.Raycast(transform.position, Vector2.left, distPared, deathLayer) || transform.position.y < -10)
         {
-            GameObject.Find("Meta").layer = 8;
-            GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta Desactivada");
+            if (GameObject.Find("Textura Meta Desactivada") != null)
+            {
+                GameObject.Find("Meta").layer = 8;
+                GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta Desactivada");
+            }
             return true;
         }
         return false;
