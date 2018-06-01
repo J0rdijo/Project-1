@@ -19,7 +19,7 @@ public class Menuctrl : MonoBehaviour {
                 GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin1");
                 break;
             case 3:
-                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin3-t");
+                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin3-g");
                 break;
             case 4:
                 GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin4");
@@ -41,7 +41,6 @@ public class Menuctrl : MonoBehaviour {
     {
 
         PlayerPrefs.SetInt("Player Skin", value);
-        Debug.Log(PlayerPrefs.GetInt("Player Skin"));
     }
 
     public void ExitGameBtn()

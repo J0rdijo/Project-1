@@ -80,6 +80,26 @@ public class movimiento : MonoBehaviour
             GameObject.Find("Particle Key 3").GetComponent<ParticleSystem>().Play();
             GameObject.Find("Particle Key 4").GetComponent<ParticleSystem>().Play();
         }
+        //Skin
+        switch (PlayerPrefs.GetInt("Player Skin"))
+        {
+            case 1:
+                GameObject.Find("Robot").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/s2");
+                break;
+            case 2:
+                GameObject.Find("Robot").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin1pixel");
+                break;
+            case 3:
+                GameObject.Find("Robot").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin3-t");
+                break;
+            case 4:
+                GameObject.Find("Robot").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin4pixel");
+                break;
+            case 5:
+                GameObject.Find("Robot").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin-5");
+                break;
+
+        }
     }
 
 
