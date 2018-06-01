@@ -8,11 +8,42 @@ public class Menuctrl : MonoBehaviour {
 
     public Text widescreen_txt;
 
+    void Start()
+    {
+        switch (PlayerPrefs.GetInt("Player Skin"))
+        {
+            case 1:
+                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/pj_5u_first");
+                break;
+            case 2:
+                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin1");
+                break;
+            case 3:
+                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin3-t");
+                break;
+            case 4:
+                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin4");
+                break;
+            case 5:
+                GameObject.Find("Skin Portada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/skin-E");
+                break;
+
+        }
+
+    }
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
-	
+
+    public void ReciveSkin(int value)
+    {
+
+        PlayerPrefs.SetInt("Player Skin", value);
+        Debug.Log(PlayerPrefs.GetInt("Player Skin"));
+    }
+
     public void ExitGameBtn()
     {
         Application.Quit();
