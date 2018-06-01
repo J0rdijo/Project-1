@@ -357,6 +357,7 @@ public class movimiento : MonoBehaviour
             Physics2D.Raycast(transform.position, Vector2.right, distPared, switchLayer) ||
             Physics2D.Raycast(transform.position, Vector2.left, distPared, switchLayer))
         {
+            SoundManagerScript.PlaySound("Key");
             GameObject.Find("Meta").layer = 13;
             GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta");
         }
