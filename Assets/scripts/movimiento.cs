@@ -67,6 +67,19 @@ public class movimiento : MonoBehaviour
         controller.position = position;
         jump = false;
         resSound = true;
+        //partículas meta
+        if (GameObject.Find("Textura Meta Desactivada") != null)
+        {
+            GameObject.Find("Meta").layer = 8;
+            GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta Desactivada");
+            GameObject.Find("Particle Meta 1").GetComponent<ParticleSystem>().Stop();
+            GameObject.Find("Particle Meta 2").GetComponent<ParticleSystem>().Stop();
+            GameObject.Find("Particle Meta 3").GetComponent<ParticleSystem>().Stop();
+            GameObject.Find("Particle Key 1").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Key 2").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Key 3").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Key 4").GetComponent<ParticleSystem>().Play();
+        }
     }
 
 
@@ -283,6 +296,13 @@ public class movimiento : MonoBehaviour
             {
                 GameObject.Find("Meta").layer = 8;
                 GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta Desactivada");
+                GameObject.Find("Particle Meta 1").GetComponent<ParticleSystem>().Stop();
+                GameObject.Find("Particle Meta 2").GetComponent<ParticleSystem>().Stop();
+                GameObject.Find("Particle Meta 3").GetComponent<ParticleSystem>().Stop();
+                GameObject.Find("Particle Key 1").GetComponent<ParticleSystem>().Play();
+                GameObject.Find("Particle Key 2").GetComponent<ParticleSystem>().Play();
+                GameObject.Find("Particle Key 3").GetComponent<ParticleSystem>().Play();
+                GameObject.Find("Particle Key 4").GetComponent<ParticleSystem>().Play();
             }
             return true;
         }
@@ -360,6 +380,13 @@ public class movimiento : MonoBehaviour
             SoundManagerScript.PlaySound("Key");
             GameObject.Find("Meta").layer = 13;
             GameObject.Find("Textura Meta Desactivada").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Textura Meta");
+            GameObject.Find("Particle Meta 1").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Meta 2").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Meta 3").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Key 1").GetComponent<ParticleSystem>().Stop();
+            GameObject.Find("Particle Key 2").GetComponent<ParticleSystem>().Stop();
+            GameObject.Find("Particle Key 3").GetComponent<ParticleSystem>().Stop();
+            GameObject.Find("Particle Key 4").GetComponent<ParticleSystem>().Stop();
         }
     }
 
