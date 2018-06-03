@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Intro.unity
+- path: Assets/Scenes/Menu_creditos.unity
   isLoaded: 1
   isActive: 1
