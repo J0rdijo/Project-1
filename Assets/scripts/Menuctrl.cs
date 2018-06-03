@@ -39,8 +39,23 @@ public class Menuctrl : MonoBehaviour {
 
     public void ReciveSkin(int value)
     {
+        if(PlayerPrefs.GetInt("Levels Unlocked") >= 25)
+            PlayerPrefs.SetInt("Player Skin", value);
+    }
 
-        PlayerPrefs.SetInt("Player Skin", value);
+    public void NewGame()
+    {
+
+        PlayerPrefs.SetInt("Levels Unlocked", -1);
+        PlayerPrefs.SetInt("Player Skin", 1);
+        SceneManager.LoadScene("Intro");
+    }
+
+    public void CheckLevel(int levelValue)
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (PlayerPrefs.GetInt("Levels Unlocked") >= levelValue)
+            SceneManager.LoadScene(currentSceneIndex + 9 + levelValue);
     }
 
     public void ExitGameBtn()

@@ -108,6 +108,12 @@ public class movimiento : MonoBehaviour
         }
         //HUD
         GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/empty HUD");
+
+        //SaveFile
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (PlayerPrefs.GetInt("Levels Unlocked") < currentSceneIndex)
+            PlayerPrefs.SetInt("Levels Unlocked", currentSceneIndex - 12);
+        Debug.Log(PlayerPrefs.GetInt("Levels Unlocked"));
     }
 
 

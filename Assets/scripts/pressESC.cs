@@ -15,6 +15,8 @@ public class pressESC : MonoBehaviour
             SceneManager.LoadScene("Menu_1");
         else if (Input.GetKeyDown(KeyCode.Space))
             SceneManager.LoadScene("Menu_1");
+        else if (Input.GetKey(KeyCode.Joystick1Button7))
+            SceneManager.LoadScene("Menu_1");
     }
 }
 
