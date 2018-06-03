@@ -40,6 +40,12 @@ public class movimiento : MonoBehaviour
     private Vector2 portalPos;
     private Vector3 portalAngle;
 
+    //HUD reference
+    private double wallJumpHUDRef;
+    private double doubleJumpHUDRef;
+    private double reboteHUDRef;
+    private double portalHUDRef;
+
     void Start()
     {
         verticalHeight = 7.625f;
@@ -100,6 +106,8 @@ public class movimiento : MonoBehaviour
                 break;
 
         }
+        //HUD
+        GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/empty HUD");
     }
 
 
@@ -126,6 +134,7 @@ public class movimiento : MonoBehaviour
         mainMenu();
         nextLevel();
         switchPlat();
+        showHUD();
         if (resSound)
         {
             SoundManagerScript.PlaySound("Exit");
@@ -138,6 +147,7 @@ public class movimiento : MonoBehaviour
             portalPos = GameObject.Find("morado (1)").transform.position;
             portalAngle = GameObject.Find("morado (1)").transform.eulerAngles;
             portalRef = Time.realtimeSinceStartup;
+            portalHUDRef = Time.realtimeSinceStartup;
             switch ((int)portalAngle.z)
             {
                 case 90:
@@ -241,6 +251,7 @@ public class movimiento : MonoBehaviour
                 SoundManagerScript.PlaySound("Bounce");
                 verticalHeight = 14;
                 controller.velocity = new Vector2(controller.velocity.x / 5, verticalHeight);
+                reboteHUDRef = Time.realtimeSinceStartup;
             }
             if (jump)
             {
@@ -255,7 +266,7 @@ public class movimiento : MonoBehaviour
             {
                 extraJump = true;
                 doubleJumpRef = Time.realtimeSinceStartup;
-                
+                doubleJumpHUDRef = Time.realtimeSinceStartup;
             }
             else
                 extraJump = false;
@@ -337,6 +348,7 @@ public class movimiento : MonoBehaviour
             controller.velocity = new Vector2(0, 5.75f);
             rWallJump = false;
             lWallJump = true;
+            wallJumpHUDRef = Time.realtimeSinceStartup;
             return true;
         }
         else if (Physics2D.Raycast(transform.position, Vector2.left, distPared, boteParedLayer) && lWallJump && jump)
@@ -345,6 +357,7 @@ public class movimiento : MonoBehaviour
             controller.velocity = new Vector2(0, 5.75f);
             lWallJump = false;
             rWallJump = true;
+            wallJumpHUDRef = Time.realtimeSinceStartup;
             return true;
         }
         return false;
@@ -390,12 +403,13 @@ public class movimiento : MonoBehaviour
 
     void switchPlat()
     {
-        if (Physics2D.Raycast(positionL, Vector2.down, distSuelo, switchLayer) ||
+        if ((Physics2D.Raycast(positionL, Vector2.down, distSuelo, switchLayer) ||
             Physics2D.Raycast(positionR, Vector2.down, distSuelo, switchLayer) ||
             Physics2D.Raycast(positionL, Vector2.up, distSuelo, switchLayer) ||
             (Physics2D.Raycast(positionR, Vector2.up, distSuelo, switchLayer)) ||
             Physics2D.Raycast(transform.position, Vector2.right, distPared, switchLayer) ||
-            Physics2D.Raycast(transform.position, Vector2.left, distPared, switchLayer))
+            Physics2D.Raycast(transform.position, Vector2.left, distPared, switchLayer)) &&
+            GameObject.Find("Meta").layer == 8)
         {
             SoundManagerScript.PlaySound("Key");
             GameObject.Find("Meta").layer = 13;
@@ -408,6 +422,21 @@ public class movimiento : MonoBehaviour
             GameObject.Find("Particle Key 3").GetComponent<ParticleSystem>().Stop();
             GameObject.Find("Particle Key 4").GetComponent<ParticleSystem>().Stop();
         }
+    }
+
+    void showHUD()
+    {
+        if(Time.realtimeSinceStartup <= wallJumpHUDRef + 0.5f)
+            GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Salto Pared HUD");
+        else if (Time.realtimeSinceStartup <= doubleJumpHUDRef + 0.5f)
+            GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Doble Salto HUD");
+        else if (Time.realtimeSinceStartup <= reboteHUDRef + 0.5f)
+            GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Rebote HUD");
+        else if (Time.realtimeSinceStartup <= portalHUDRef + 0.5f)
+            GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/Portal HUD");
+        else
+            GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/empty HUD");
+
     }
 
 
