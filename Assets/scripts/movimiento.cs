@@ -109,6 +109,17 @@ public class movimiento : MonoBehaviour
         //HUD
         GameObject.Find("Platform HUD").GetComponent<SpriteRenderer>().sprite = Resources.Load<UnityEngine.Sprite>("Sprites/empty HUD");
 
+        //Explosion Particles
+        GameObject.Find("Particle Respawn").GetComponent<ParticleSystem>().Play();
+        GameObject.Find("Particle Respawn").GetComponent<Rigidbody2D>().position = controller.position;
+        GameObject.Find("Particle Muerte").GetComponent<ParticleSystem>().Stop();
+        GameObject.Find("Particle Muerte").GetComponent<Rigidbody2D>().position = controller.position;
+        GameObject.Find("Particle Entrada Portal").GetComponent<ParticleSystem>().Stop();
+        GameObject.Find("Particle Entrada Portal").GetComponent<Rigidbody2D>().position = controller.position;
+        GameObject.Find("Particle Salida Portal").GetComponent<ParticleSystem>().Stop();
+        GameObject.Find("Particle Salida Portal").GetComponent<Rigidbody2D>().position = controller.position;
+
+
         //SaveFile
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (PlayerPrefs.GetInt("Levels Unlocked") < currentSceneIndex)
@@ -150,6 +161,8 @@ public class movimiento : MonoBehaviour
         if (portal() != 0)
         {
             SoundManagerScript.PlaySound("Teleport");
+            GameObject.Find("Particle Entrada Portal").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Entrada Portal").GetComponent<Rigidbody2D>().position = controller.position;
             portalPos = GameObject.Find("morado (1)").transform.position;
             portalAngle = GameObject.Find("morado (1)").transform.eulerAngles;
             portalRef = Time.realtimeSinceStartup;
@@ -159,6 +172,8 @@ public class movimiento : MonoBehaviour
                 case 90:
                     portalPos.y += 0.8f;
                     controller.position = portalPos;
+                    GameObject.Find("Particle Salida Portal").GetComponent<ParticleSystem>().Play();
+                    GameObject.Find("Particle Salida Portal").GetComponent<Rigidbody2D>().position = controller.position;
                     switch (portal())
                     {
                         case 1:
@@ -180,6 +195,8 @@ public class movimiento : MonoBehaviour
                 case 270:
                     portalPos.y -= 0.8f;
                     controller.position = portalPos;
+                    GameObject.Find("Particle Salida Portal").GetComponent<ParticleSystem>().Play();
+                    GameObject.Find("Particle Salida Portal").GetComponent<Rigidbody2D>().position = controller.position;
                     switch (portal())
                     {
                         case 1:
@@ -201,6 +218,8 @@ public class movimiento : MonoBehaviour
                 case 0:
                     portalPos.x += 0.75f;
                     controller.position = portalPos;
+                    GameObject.Find("Particle Salida Portal").GetComponent<ParticleSystem>().Play();
+                    GameObject.Find("Particle Salida Portal").GetComponent<Rigidbody2D>().position = controller.position;
                     switch (portal())
                     {
                         case 1:
@@ -222,6 +241,8 @@ public class movimiento : MonoBehaviour
                 case 180:
                     portalPos.x -= 0.75f;
                     controller.position = portalPos;
+                    GameObject.Find("Particle Salida Portal").GetComponent<ParticleSystem>().Play();
+                    GameObject.Find("Particle Salida Portal").GetComponent<Rigidbody2D>().position = controller.position;
                     switch (portal())
                     {
                         case 1:
@@ -308,8 +329,12 @@ public class movimiento : MonoBehaviour
         if (isDead())
         {
             SoundManagerScript.PlaySound("Death");
+            GameObject.Find("Particle Muerte").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Muerte").GetComponent<Rigidbody2D>().position = controller.position;
             controller.position = position;
             controller.velocity = resVel;
+            GameObject.Find("Particle Respawn").GetComponent<ParticleSystem>().Play();
+            GameObject.Find("Particle Respawn").GetComponent<Rigidbody2D>().position = controller.position;
         }
     }
 
