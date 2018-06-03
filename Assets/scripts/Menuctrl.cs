@@ -53,9 +53,8 @@ public class Menuctrl : MonoBehaviour {
 
     public void CheckLevel(int levelValue)
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (PlayerPrefs.GetInt("Levels Unlocked") >= levelValue)
-            SceneManager.LoadScene(currentSceneIndex + 9 + levelValue);
+            SceneManager.LoadScene(12 + levelValue);
     }
 
     public void ExitGameBtn()
