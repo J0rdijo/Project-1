@@ -74,4 +74,9 @@ public class Menuctrl : MonoBehaviour {
         }
     }
 
+    public void Mute()
+    {
+        AudioListener.pause = !AudioListener.pause;
+    }
+
 }
