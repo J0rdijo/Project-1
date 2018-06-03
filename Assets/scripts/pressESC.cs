@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class pressESC : MonoBehaviour
 {
+    void Start()
+    {
+        PlayerPrefs.SetInt("Levels Unlocked", 26);
+    }
 
     void Update()
     {

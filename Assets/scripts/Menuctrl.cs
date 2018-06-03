@@ -39,7 +39,7 @@ public class Menuctrl : MonoBehaviour {
 
     public void ReciveSkin(int value)
     {
-        if(PlayerPrefs.GetInt("Levels Unlocked") >= 25)
+        if(PlayerPrefs.GetInt("Levels Unlocked") > 25)
             PlayerPrefs.SetInt("Player Skin", value);
     }
 
